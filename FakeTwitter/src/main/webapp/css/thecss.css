@@ -1,0 +1,17 @@
+body {
+    font-family: Audiowide;
+    text-align: center;
+}
+
+a {
+    font-size: large;
+}
+
+.left-sidebar {
+    width: 260px;
+}
+
+.main {
+    margin: 0 10px;
+    width: 460px;
+}

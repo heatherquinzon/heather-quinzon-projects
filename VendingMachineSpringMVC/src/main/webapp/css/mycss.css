@@ -1,0 +1,37 @@
+body {
+    background-color: black;
+    font-family: monospace;
+    color: white;
+    text-align: center;
+}
+
+button {
+    padding: 15px 25px;
+    box-shadow: 0 5px 3px 0 White;
+}
+
+button:active {
+    background-color: cadetblue;
+    box-shadow: 0 3px 3px 0 White;
+    transform: translateY(4px);
+}
+
+#money-shown, #message-given, #change-message, #item-number {
+    background-color: #F1C40F;
+    color: white;
+    text-align: center;
+}
+
+#add-dollar, #add-quarter, #add-dime, #add-nickel {
+    width: 105%;
+    text-align: center;
+}
+
+@font-face {
+    font-family: "idk";
+    src: url(../fonts/slkscr.ttf );
+}
+
+#1 {
+    background-color: white;
+}

@@ -1,0 +1,39 @@
+2018-09-14T14:27:31.935 : addOrder: Order Number: 5 |Customer Name: Hannah |State: OH |Tax Rate: 6.25 |Product Type: Tile |Area: 98.098 |Cost(/sqft): 3.50 |Labor Cost(/sgft): 4.15 |Material Cost: 343.34 |Labor Cost: 407.11 |Total Tax: 46.90 |Grand Total: 797.35
+2018-09-14T14:27:52.745 : editOrder: 2018-09-14Order Number: 4 |Customer Name: Jack |State: IN |Tax Rate: 6.00 |Product Type: Wood |Area: 200.456 |Cost(/sqft): 5.15 |Labor Cost(/sgft): 4.75 |Material Cost: 1032.35 |Labor Cost: 952.17 |Total Tax: 119.07 |Grand Total: 2103.59
+2018-09-14T14:28:04.001 : removeOrder: 2018-09-144
+2018-09-14T14:42:38.327 : Exception: FMDaoPersistenceException : Method: removeOrder : Message: Empty order number2018-09-134
+2018-09-14T14:46:07.247 : Exception: FMDaoPersistenceException : Method: getAllOrders : Message: Could not load: Orders_09091999.txt (The system cannot find the file specified)1999-09-09
+2018-09-14T14:47:02.711 : addOrder: Order Number: 6 |Customer Name: Jamie |State: pa |Tax Rate: 6.75 |Product Type: Tile |Area: 109.0 |Cost(/sqft): 3.50 |Labor Cost(/sgft): 4.15 |Material Cost: 381.50 |Labor Cost: 452.35 |Total Tax: 56.28 |Grand Total: 890.13
+2018-09-14T14:47:12.127 : Exception: FMDaoPersistenceException : Method: getAllOrders : Message: Could not load: Orders_09142000.txt (The system cannot find the file specified)2000-09-14
+2018-09-14T14:47:35.139 : editOrder: 2018-09-14Order Number: 3 |Customer Name: Jason |State: PA |Tax Rate: 6.75 |Product Type: Laminate |Area: 130.45 |Cost(/sqft): 1.75 |Labor Cost(/sgft): 2.10 |Material Cost: 228.29 |Labor Cost: 273.95 |Total Tax: 33.90 |Grand Total: 536.14
+2018-09-14T14:47:43.429 : Exception: FMDaoPersistenceException : Method: getOrder : Message: Empty order number2018-09-148
+2018-09-14T15:10:33.111 : addOrder: Order Number: 7 |Customer Name: Jamie |State: OH |Tax Rate: 6.25 |Product Type: Tile |Area: 100.0 |Cost(/sqft): 3.50 |Labor Cost(/sgft): 4.15 |Material Cost: 350.00 |Labor Cost: 415.00 |Total Tax: 47.81 |Grand Total: 812.81
+2018-09-14T15:10:45.965 : removeOrder: 2018-09-146
+2018-09-14T15:11:03.738 : editOrder: 2018-09-12Order Number: 1 |Customer Name: Jen |State: MN |Tax Rate: 6.25 |Product Type: Wood |Area: 100.0 |Cost(/sqft): 5.15 |Labor Cost(/sgft): 4.75 |Material Cost: 515.00 |Labor Cost: 475.00 |Total Tax: 61.88 |Grand Total: 1051.88
+2018-09-15T14:27:00.175 : addOrder: Order Number: 1 |Customer Name: Jackson |State: MN |Tax Rate: 6.25 |Product Type: Tile |Area: 100.0 |Cost(/sqft): 3.50 |Labor Cost(/sgft): 4.15 |Material Cost: 350.00 |Labor Cost: 415.00 |Total Tax: 47.81 |Grand Total: 812.81
+2018-09-15T14:27:21.938 : removeOrder: 2018-09-146
+2018-09-15T14:28:16.749 : EXCEPTION THROWN: FMDaoPersistenceException : Method: getAllOrders : Message: Could not load: Orders_09201999.txt (The system cannot find the file specified)1999-09-20
+2018-09-15T14:28:42.814 : EXCEPTION THROWN: FMDaoPersistenceException : Method: getAllOrders : Message: Could not load: Orders_09091000.txt (The system cannot find the file specified)1000-09-09
+2018-09-15T14:28:51.796 : EXCEPTION THROWN: FMDaoPersistenceException : Method: getAllOrders : Message: Could not load: Orders_09102018.txt (The system cannot find the file specified)2018-09-10
+2018-09-15T14:31:14.230 : addOrder: Order Number: 1 |Customer Name: Jackson |State: pa |Tax Rate: 6.75 |Product Type: wood |Area: 3.14159 |Cost(/sqft): 5.15 |Labor Cost(/sgft): 4.75 |Material Cost: 16.18 |Labor Cost: 14.92 |Total Tax: 2.10 |Grand Total: 33.20
+2018-09-15T14:33:16.878 : EXCEPTION THROWN: FMDaoPersistenceException : Method: getOrder : Message: Empty order number2018-09-128
+2018-09-15T14:34:56.321 : editOrder: 2018-09-12Order Number: 5 |Customer Name: Mimi |State: PA |Tax Rate: 6.75 |Product Type: Wood |Area: 1000.0 |Cost(/sqft): 5.15 |Labor Cost(/sgft): 4.75 |Material Cost: 824.00 |Labor Cost: 760.00 |Total Tax: 106.92 |Grand Total: 1690.92
+2018-09-16T16:53:53.977 : EXCEPTION THROWN: FMDaoPersistenceException : Method: getAllOrders : Message: Could not load: Orders_09162018.txt (The system cannot find the file specified)2018-09-16
+2018-09-16T16:54:24.025 : editOrder: 2018-09-15Order Number: 1 |Customer Name: Jackson |State: PA |Tax Rate: 6.75 |Product Type: wood |Area: 3.14159 |Cost(/sqft): 5.15 |Labor Cost(/sgft): 4.75 |Material Cost: 16.18 |Labor Cost: 14.92 |Total Tax: 2.10 |Grand Total: 33.20
+2018-09-16T16:54:36.566 : EXCEPTION THROWN: FMDaoPersistenceException : Method: removeOrder : Message: Empty order number2018-09-152
+2018-09-16T16:54:49.876 : removeOrder: 2018-09-151
+2018-09-16T16:54:56.414 : EXCEPTION THROWN: FMDaoPersistenceException : Method: getAllOrders : Message: Empty file2018-09-15
+2018-09-17T11:08:49.236 : EXCEPTION THROWN: FMDaoPersistenceException : Method: getAllOrders : Message: Could not load: Orders_09172018.txt (The system cannot find the file specified)2018-09-17
+2018-09-17T11:09:00.425 : EXCEPTION THROWN: FMDaoPersistenceException : Method: getAllOrders : Message: Could not load: Orders_09162018.txt (The system cannot find the file specified)2018-09-16
+2018-09-17T11:11:04.384 : addOrder: Order Number: 1 |Customer Name: Jackson |State: oh |Tax Rate: 6.25 |Product Type: Tile |Area: 10.45 |Cost(/sqft): 3.50 |Labor Cost(/sgft): 4.15 |Material Cost: 36.58 |Labor Cost: 43.37 |Total Tax: 5.00 |Grand Total: 84.95
+2018-09-17T11:12:05.073 : editOrder: 2018-09-17Order Number: 1 |Customer Name: Jackson |State: MN |Tax Rate: 6.25 |Product Type: Tile |Area: 10.45 |Cost(/sqft): 3.50 |Labor Cost(/sgft): 4.15 |Material Cost: 36.58 |Labor Cost: 43.37 |Total Tax: 5.00 |Grand Total: 84.95
+2018-09-17T11:12:51.166 : EXCEPTION THROWN: FMDaoPersistenceException : Method: getOrder : Message: Empty order number2018-09-175
+2018-09-17T11:13:08.688 : editOrder: 2018-09-17Order Number: 1 |Customer Name: Jackson |State: pa |Tax Rate: 6.75 |Product Type: Tile |Area: 10.45 |Cost(/sqft): 3.50 |Labor Cost(/sgft): 4.15 |Material Cost: 36.58 |Labor Cost: 43.37 |Total Tax: 5.40 |Grand Total: 85.35
+2018-09-17T11:13:32.721 : EXCEPTION THROWN: FMDaoPersistenceException : Method: removeOrder : Message: Empty order number2018-09-176
+2018-09-17T11:13:47.528 : removeOrder: 2018-09-171
+2018-09-17T11:13:56.496 : EXCEPTION THROWN: FMDaoPersistenceException : Method: getAllOrders : Message: Empty file2018-09-17
+2018-09-17T11:15:36.266 : addOrder: Order Number: 0 |Customer Name: Ohio |State: PA |Tax Rate: 6.75 |Product Type: Wood |Area: 100.0 |Cost(/sqft): 5.15 |Labor Cost(/sgft): 4.75 |Material Cost: 515.00 |Labor Cost: 475.00 |Total Tax: 66.83 |Grand Total: 1056.83
+2018-09-17T11:15:42.303 : EXCEPTION THROWN: FMDaoPersistenceException : Method: getAllOrders : Message: Empty file2018-09-17
+2018-09-17T11:16:19.988 : editOrder: 2018-09-12Order Number: 1 |Customer Name: Jane |State: OH |Tax Rate: 6.25 |Product Type: Wood |Area: 100.0 |Cost(/sqft): 5.15 |Labor Cost(/sgft): 4.75 |Material Cost: 515.00 |Labor Cost: 475.00 |Total Tax: 61.88 |Grand Total: 1051.88
+2018-09-17T11:26:01.716 : EXCEPTION THROWN: FMDaoPersistenceException : Method: getAllOrders : Message: Could not load: Orders_09202018.txt (The system cannot find the file specified)2018-09-20
+2018-09-17T11:29:23.107 : EXCEPTION THROWN: FMDaoPersistenceException : Method: getAllOrders : Message: Could not load: Orders_09202018.txt (The system cannot find the file specified) : 2018-09-20

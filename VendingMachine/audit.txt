@@ -1,0 +1,7 @@
+2018-09-10T09:45:52.933 : Exception: VendingMachineDaoEmptyInventoryException : Method: throwEmpty : Message: No more item.
+2018-09-10T09:46:03.011 : Exception: InsuffecientFundsException : Method: returnChange : Message: Insuffecient funds. Your money has been returned to you.
+2018-09-10T09:51:31.199 : Exception: VendingMachineDaoEmptyInventoryException : Method: throwEmpty : Message: No more item.Item Name: A1Item Desc: TearsCost: 0.75Amount: 0
+2018-09-10T09:51:40.885 : Exception: InsuffecientFundsException : Method: returnChange : Message: Insuffecient funds. Your money has been returned to you.Item Name: A2Item Desc: Cows MilkCost: 1.45Amount: 201
+2018-09-13T12:50:36.423 : Exception: VendingMachineDaoPersistenceException : Method: getInventory : Message: Invalid Item NameAd
+2018-09-13T13:15:00.025 : Exception: VendingMachineDaoPersistenceException : Method: getInventory : Message: Invalid Item NameAd
+2018-09-13T15:12:40.240 : Exception: VendingMachineDaoEmptyInventoryException : Method: throwEmpty : Message: No more item.Item Name: A1Item Desc: TearsCost: 0.75Amount: 0

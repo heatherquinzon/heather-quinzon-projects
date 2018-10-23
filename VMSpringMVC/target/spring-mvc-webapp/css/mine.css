@@ -1,0 +1,33 @@
+form {
+    display: inline;
+}
+
+body {
+    background-color: #FDF2E9;
+    font-family: Unica One;
+    color: black;
+    text-align: center;
+    font-weight: 600; 
+    padding: 15px 25px;
+    box-shadow: 0 5px 3px 0 gainsboro;
+}
+
+button:active {
+    background-color: cadetblue;
+    box-shadow: 0 3px 3px 0 gainsboro;
+    transform: translateY(4px);
+}
+
+input, textarea {
+    background-color: darkslategrey;
+    color: white;
+}
+
+input {
+    text-align: center;
+}
+
+#add-dollar, #add-quarter, #add-dime, #add-nickel {
+    width: 105%;
+    text-align: center;
+}

@@ -1,0 +1,3 @@
+2018-09-07T13:20:46.452 : addDVD: JawsDVD Name: Jaws |Release Date: 06/07/1975 |MPAA Rating: R |Director Name: Spielberg |Studio: Universal |Notes: Nada
+2018-09-07T13:21:05.190 : addDVD: JawsDVD Name: Jaws |Release Date: 06/20/1975 |MPAA Rating: R |Director Name: Spielberg |Studio: Universal |Notes: Nada
+2018-09-07T13:21:10.285 : removeDVD: Jaws

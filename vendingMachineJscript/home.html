@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>VENDING MACHINE</title>
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <link href="css/mycss.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <div class="containter">
+            <h1>VENDING MACHINE</h1>
+            <hr/>
+            <ul class="list-group" id="errorMessages"></ul>
+             
+        <div class="row">
+            <!-- for all vending items buttons -->
+            <div class="col-md-9">
+                <h3>Items</h3>
+                <hr/>
+                
+                <div id="items">
+                </div>
+                
+            </div>
+        
+            <!-- for the output stuff -->
+            <div class="col-md-3">
+                
+                <!-- TOTAL $ IN SECTION -->
+                <div class="col-md-12">
+                    <h3>Total $ In</h3>
+                    <hr/>
+                    
+                    <!-- INPUT TO SHOW MONEY -->
+                    <div class="col-md-">
+                        <center><input type="text" id="money-shown"
+                                       placeholder="Money Added" readonly/></center>
+                    </div>
+                    
+                    <p/>
+                    
+                    <!-- BUTTONS FOR DOLLAR AND QUARTER -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="button" id="add-dollar" value="Add Dollar"  class="btn btn-info">Add Dollar</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" id="add-quarter" value="Add Quarter" class="btn btn-info">Add Quarter</button>
+                        </div>
+                    </div>
+                    
+                    <p/>
+                    <!-- BUTTONS FOR DIME AND NICKEL -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="button" id="add-dime" value="Add Dime" class="btn btn-info">Add Dime</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" id="add-nickel" value="Add Nickel" class="btn btn-info">Add Nickel</button>
+                        </div>
+                    </div>
+                    
+                </div>
+                <p/>
+                
+                <!-- MESSAGES SECTION -->
+                <div class="col-md-12">
+                    <h3>Messages</h3>
+                    <hr/>
+                    
+                    <!--Message that Shows -->
+                    <div class="col-md-12">
+                        <input type="text" class="col-md-12" 
+                               id="message-given" readonly/>
+                    </div>
+                    <p/>
+                    
+                    <!--Shows Item Number -->
+                    <div id="shows-item-number" class="col-md-12">
+                        <label id="show-item-number">
+                            Item:</label>
+                        <p/>
+                        <input type="text" class="col-md-3" id="item-number" readonly/>
+                    </div>
+                    
+                    <!--Make Purchase Button -->
+                    <div class="col-md-12">
+                        <center><button type="button" class="btn btn-success" id="purchase">Make Purchase</button></center>
+                    </div>
+                    
+                </div>
+                <p/>
+                
+                <!-- CHANGE SECTION -->
+                <div class="col-md-12">
+                    <h3>Change</h3>
+                    <hr/>
+                    
+                    <center><textarea readonly name=text1 rows="5" id="change-message"></textarea></center>
+                    <p/>
+                    
+                    <center><button type="button" class="btn btn-danger" id="change-return">Change Return</button></center>
+                    <p/>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        </div>
+        
+        <script src="js/jquery-2.2.4.min.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/home.js"></script>
+    </body>
+
+</html>
