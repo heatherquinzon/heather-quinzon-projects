@@ -6,7 +6,7 @@
 package com.sg.herosightings.dto;
 
 import java.sql.Date;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -17,7 +17,7 @@ public class Sightings {
 
     private int sightingsId;
     private Location location;
-    private Date date;
+    private LocalDate date;
 
     public int getSightingsId() {
         return sightingsId;
@@ -35,11 +35,11 @@ public class Sightings {
         this.location = location;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

@@ -5,8 +5,11 @@
  */
 package com.sg.herosightings.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
@@ -14,12 +17,28 @@ import java.util.Objects;
  */
 public class HeroVillain {
     private int heroVillainId;
+    
+    @NotEmpty(message = "You must supply a value for Super Name.")
+    @Length(max = 15, message = "Super Name can't exceed 15 characters.")
     private String name;
+    
+    @NotEmpty(message = "You must supply a Hero Description.")
+    @Length(max = 300, message = "Description can't exceed 300 characters.")
     private String description;
+    
+    @NotEmpty(message = "You must supply a Hero's Power.")
+    @Length(max = 30, message = "Power can't exceed 30 characters.")
     private String power;
+    
+    @NotEmpty(message = "You must supply a value for Type.")
+    @Length(max = 7, message = "Type can't exceed 7 characters.")
     private String type;
-    private List<Organization> orgs;
-    private List<Sightings> sightings;
+    
+    
+    private List<Organization> orgs = new ArrayList<>();
+    
+    
+    private List<Sightings> sightings = new ArrayList<>();
 
     public int getHeroVillainId() {
         return heroVillainId;
@@ -80,13 +99,13 @@ public class HeroVillain {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 47 * hash + this.heroVillainId;
-        hash = 47 * hash + Objects.hashCode(this.name);
-        hash = 47 * hash + Objects.hashCode(this.description);
-        hash = 47 * hash + Objects.hashCode(this.power);
-        hash = 47 * hash + Objects.hashCode(this.type);
-        hash = 47 * hash + Objects.hashCode(this.orgs);
-        hash = 47 * hash + Objects.hashCode(this.sightings);
+        hash = 31 * hash + this.heroVillainId;
+        hash = 31 * hash + Objects.hashCode(this.name);
+        hash = 31 * hash + Objects.hashCode(this.description);
+        hash = 31 * hash + Objects.hashCode(this.power);
+        hash = 31 * hash + Objects.hashCode(this.type);
+        hash = 31 * hash + Objects.hashCode(this.orgs);
+        hash = 31 * hash + Objects.hashCode(this.sightings);
         return hash;
     }
 
@@ -125,5 +144,7 @@ public class HeroVillain {
         }
         return true;
     }
+
+    
 
 }

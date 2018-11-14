@@ -25,5 +25,5 @@ public interface LocationDao {
 
     public List getAllLocation();
 
-    public List<Location> getLocationsByHeroVillainId(HeroVillain heroVillainId);
+    public List<Location> getLocationsByHeroVillainId(int heroVillainId);
 }

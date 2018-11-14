@@ -8,6 +8,9 @@ package com.sg.herosightings.dto;
 import java.util.List;
 import java.util.Objects;
 import javax.inject.Inject;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -18,12 +21,33 @@ import org.springframework.stereotype.Repository;
 public class Organization {
    
     private int organizationId;
+    
+    @NotEmpty(message = "You must supply a value for Organization Name.")
+    @Length(max = 20, message = "Organization Name can't exceed 20 characters.")
     private String name;
+    
+    @NotEmpty(message = "You must supply a value for Description.")
+    @Length(max = 300, message = "Description can't exceed 300 characters.")
     private String description;
+    
+    @NotEmpty(message = "You must supply a value for Phone.")
+    @Length(max = 12, message = "Phone can't exceed 12 characters. xxx-xxx-xxxx")
     private String phone;
+    
+    @Email(message = "Please enter a valid email address.")
+    @Length(max = 50, message = "Email can't exceed 50 characters.")
     private String email;
+    
+    @NotEmpty(message = "You must supply a value for City.")
+    @Length(max = 20, message = "City can't exceed 20 characters.")
     private String city;
+    
+    @NotEmpty(message = "You must supply a value for State Initial.")
+    @Length(max = 2, message = "State Initial must only be 2 characters.")
     private String stateInitial;
+    
+    @NotEmpty(message = "You must supply a value for Phone.")
+    @Length(max = 10, message = "Zipcode can't exceed 10 characters.")
     private String zipcode;
 
     public int getOrganizationId() {

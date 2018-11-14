@@ -9,6 +9,7 @@ import com.sg.herosightings.dto.HeroVillain;
 import com.sg.herosightings.dto.Location;
 import com.sg.herosightings.dto.Organization;
 import com.sg.herosightings.dto.Sightings;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import org.junit.After;
@@ -88,15 +89,22 @@ public class OrgDBImplTest {
         org.setCity("Minneapolis");
         org.setStateInitial("MN");
         org.setZipcode("55402");
-
         oDao.addOrganization(org);
+        List<Organization> orgs = new ArrayList<>();
+        orgs.add(org);
 
         Organization fromDao = oDao.getOrgById(org.getOrganizationId());
-
         assertEquals(fromDao, org);
 
-        oDao.removeOrganization(org.getOrganizationId());
+        HeroVillain hv = new HeroVillain();
+        hv.setName("SpoodyMan");
+        hv.setDescription("Shoots Webs");
+        hv.setPower("Webslinger");
+        hv.setType("Hero");
+        hv.setOrgs(orgs);
+        hv = hvDao.addHeroVillan(hv);
 
+        oDao.removeOrganization(org.getOrganizationId());
         assertNull(oDao.getOrgById(org.getOrganizationId()));
     }
 
@@ -119,7 +127,7 @@ public class OrgDBImplTest {
 
         assertEquals(fromDao, org);
     }
-    
+
     @Test
     public void getAllOrg() {
         Organization org = new Organization();
@@ -146,5 +154,5 @@ public class OrgDBImplTest {
 
         assertEquals(orgList.size(), 2);
     }
-    
+
 }

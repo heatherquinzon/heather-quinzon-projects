@@ -9,6 +9,9 @@ import com.sg.herosightings.dto.HeroVillain;
 import com.sg.herosightings.dto.Location;
 import com.sg.herosightings.dto.Organization;
 import com.sg.herosightings.dto.Sightings;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import org.junit.After;
@@ -78,6 +81,10 @@ public class LocationDBImplTest {
 
     @Test
     public void getAddRemoveLocation() {
+        LocalDate localDate = LocalDate.parse("2018-10-03",
+                DateTimeFormatter.ISO_LOCAL_DATE);
+        
+        //ADD LOCATION
         Location loc = new Location();
         loc.setName("SGuild");
         loc.setDescription("School");
@@ -86,9 +93,25 @@ public class LocationDBImplTest {
         loc.setCity("Minneapolis");
         loc.setStateInitial("MN");
         loc.setZipcode("55402");
+        loc = lDao.addLocation(loc);
 
-        lDao.addLocation(loc);
+        //ADD SIGHTINGS
+        Sightings s = new Sightings();
+        s.setLocation(loc);
+        s.setDate(localDate);
+        s = sDao.addSightings(s);
+        List<Sightings> sights = new ArrayList<>();
+        sights.add(s);
 
+        //ADD HERO
+        HeroVillain hv = new HeroVillain();
+        hv.setName("SpoodyMan");
+        hv.setDescription("Shoots Webs");
+        hv.setPower("Webslinger");
+        hv.setType("Hero");
+        hv.setSightings(sights);
+        hv = hvDao.addHeroVillan(hv);
+        
         Location fromDao = lDao.getLocationById(loc.getLocationId());
 
         assertEquals(fromDao, loc);
@@ -142,5 +165,56 @@ public class LocationDBImplTest {
         List<Location> locList = lDao.getAllLocation();
         
         assertEquals(locList.size(), 2);
+    }
+    
+    @Test
+    public void getLocationsByHeroVillainID(){
+        LocalDate localDate = LocalDate.parse("2018-10-03",
+                DateTimeFormatter.ISO_LOCAL_DATE);
+
+        //ADD LOCATION
+        Location loc = new Location();
+        loc.setName("SGuild");
+        loc.setDescription("School");
+        loc.setLongitude("20.232323");
+        loc.setLattitude("30.232323");
+        loc.setCity("Minneapolis");
+        loc.setStateInitial("MN");
+        loc.setZipcode("55402");
+        loc = lDao.addLocation(loc);
+
+        //ADD SIGHTINGS
+        Sightings s = new Sightings();
+        s.setLocation(loc);
+        s.setDate(localDate);
+        s = sDao.addSightings(s);
+        List<Sightings> sights = new ArrayList<>();
+        sights.add(s);
+
+        //ADD ORGANIZATION
+        Organization org = new Organization();
+        org.setName("All Evil Corp");
+        org.setDescription("All Evil Mwahaha");
+        org.setPhone("666-999-6699");
+        org.setEmail("evil@crop.com");
+        org.setCity("Minneapolis");
+        org.setStateInitial("MN");
+        org.setZipcode("55402");
+        org = oDao.addOrganization(org);
+        List<Organization> orgs = new ArrayList<>();
+        orgs.add(org);
+
+        HeroVillain hv = new HeroVillain();
+        hv.setName("SpoodyMan");
+        hv.setDescription("Shoots Webs");
+        hv.setPower("Webslinger");
+        hv.setType("Hero");
+        hv.setOrgs(orgs);
+        hv.setSightings(sights);
+        hv = hvDao.addHeroVillan(hv);
+        
+        List<Location> locList = lDao.getLocationsByHeroVillainId(hv.getHeroVillainId());
+        
+        assertEquals(locList.size(), 1);
     }
 }

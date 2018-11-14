@@ -7,6 +7,8 @@ package com.sg.herosightings.dto;
 
 import java.util.List;
 import java.util.Objects;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
@@ -15,12 +17,29 @@ import java.util.Objects;
 public class Location {
 
     private int locationId;
+    
+    @NotEmpty(message = "You must supply a value for Name.")
+    @Length(max = 20, message = "Name can't exceed 20 characters.")
     private String name;
+    
+    @NotEmpty(message = "You must supply a value for Description.")
+    @Length(max = 300, message = "Description can't exceed 300 characters.")
     private String description;
+    
+    @NotEmpty(message = "You must supply a value for City.")
+    @Length(max = 20, message = "City can't exceed 20 characters.")
     private String city;
+    
+    @NotEmpty(message = "You must supply a value for State Initial.")
+    @Length(max = 2, message = "State Initial must only be 2 characters.")
     private String stateInitial;
+    
+    @NotEmpty(message = "You must supply a value for Phone.")
+    @Length(max = 10, message = "Zipcode can't exceed 10 characters.")
     private String zipcode;
+    
     private String longitude;
+    
     private String lattitude;
 
     public Location(){

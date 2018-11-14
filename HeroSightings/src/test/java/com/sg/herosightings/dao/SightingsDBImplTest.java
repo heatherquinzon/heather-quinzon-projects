@@ -9,6 +9,9 @@ import com.sg.herosightings.dto.HeroVillain;
 import com.sg.herosightings.dto.Location;
 import com.sg.herosightings.dto.Organization;
 import com.sg.herosightings.dto.Sightings;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import org.junit.After;
@@ -80,6 +83,9 @@ public class SightingsDBImplTest {
     @Test
     public void addGetRemoveSighting() {
 
+        LocalDate localDate = LocalDate.parse("2018-10-03",
+                DateTimeFormatter.ISO_LOCAL_DATE);
+
         Location loc = new Location();
         loc.setName("SGuild");
         loc.setDescription("School");
@@ -92,24 +98,117 @@ public class SightingsDBImplTest {
 
         Sightings s = new Sightings();
         s.setLocation(loc);
-        s.setDate(java.sql.Date.valueOf("2018-10-22"));
+        s.setDate(localDate);
         sDao.addSightings(s);
+        List<Sightings> sights = new ArrayList<>();
+        sights.add(s);
+
+        HeroVillain hv = new HeroVillain();
+        hv.setName("SpoodyMan");
+        hv.setDescription("Shoots Webs");
+        hv.setPower("Webslinger");
+        hv.setType("Hero");
+        hv.setSightings(sights);
+        hv = hvDao.addHeroVillan(hv);
 
         Sightings fromDao = sDao.getSightingsById(s.getSightingsId());
 
         assertEquals(fromDao, s);
-        
-        lDao.removeLocation(loc.getLocationId());
+
         sDao.removeSightings(s.getSightingsId());
 
         assertNull(sDao.getSightingsById(s.getSightingsId()));
-        assertNull(lDao.getLocationById(loc.getLocationId()));
-
     }
 
     @Test
-    public void getAllSightings(){
-        
+    public void updateSightings() {
+        LocalDate localDate = LocalDate.parse("2018-10-03",
+                DateTimeFormatter.ISO_LOCAL_DATE);
+
+        LocalDate localDate2 = LocalDate.parse("2018-10-03",
+                DateTimeFormatter.ISO_LOCAL_DATE);
+
+        Location loc = new Location();
+        loc.setName("SGuild");
+        loc.setDescription("School");
+        loc.setLongitude("20.232323");
+        loc.setLattitude("30.232323");
+        loc.setCity("Minneapolis");
+        loc.setStateInitial("MN");
+        loc.setZipcode("55402");
+        lDao.addLocation(loc);
+
+        Sightings s = new Sightings();
+        s.setLocation(loc);
+        s.setDate(localDate);
+        sDao.addSightings(s);
+
+        s.setDate(localDate2);
+        sDao.updateSightings(s);
+
+        Sightings fromDao = sDao.getSightingsById(s.getSightingsId());
+
+        assertEquals(fromDao, s);
     }
-    
+
+    @Test
+    public void getAllSightings() {
+
+        LocalDate localDate = LocalDate.parse("2018-10-02",
+                DateTimeFormatter.ISO_LOCAL_DATE);
+
+        LocalDate localDate2 = LocalDate.parse("2018-09-02",
+                DateTimeFormatter.ISO_LOCAL_DATE);
+
+        Location loc = new Location();
+        loc.setName("SGuild");
+        loc.setDescription("School");
+        loc.setLongitude("20.232323");
+        loc.setLattitude("30.232323");
+        loc.setCity("Minneapolis");
+        loc.setStateInitial("MN");
+        loc.setZipcode("55402");
+        lDao.addLocation(loc);
+
+        Sightings s = new Sightings();
+        s.setLocation(loc);
+        s.setDate(localDate);
+        sDao.addSightings(s);
+
+        Sightings s2 = new Sightings();
+        s2.setLocation(loc);
+        s2.setDate(localDate2);
+        sDao.addSightings(s2);
+
+        List<Sightings> sList = sDao.getAllSightings();
+
+        assertEquals(sList.size(), 2);
+    }
+
+    @Test
+    public void getAllSightingsByDate() {
+
+        LocalDate localDate = LocalDate.parse("2018-10-03",
+                DateTimeFormatter.ISO_LOCAL_DATE);
+
+        Location loc = new Location();
+        loc.setName("SGuild");
+        loc.setDescription("School");
+        loc.setLongitude("20.232323");
+        loc.setLattitude("30.232323");
+        loc.setCity("Minneapolis");
+        loc.setStateInitial("MN");
+        loc.setZipcode("55402");
+        lDao.addLocation(loc);
+
+        Sightings s = new Sightings();
+        s.setLocation(loc);
+        s.setDate(localDate);
+        sDao.addSightings(s);
+
+        List<Sightings> sListByDate = sDao.getllAllSightingsByDate(localDate);
+
+        assertEquals(sListByDate.size(), 1);
+    }
+
 }

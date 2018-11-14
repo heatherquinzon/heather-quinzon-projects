@@ -5,10 +5,13 @@
  */
 package com.sg.herosightings.dao;
 
+import com.sg.herosightings.dao.LocationDBImpl.LocationMapper;
+import com.sg.herosightings.dto.Location;
 import com.sg.herosightings.dto.Sightings;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.inject.Inject;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -35,7 +38,7 @@ public class SightingsDBImpl implements SightingsDao{
     @Transactional
     public Sightings addSightings(Sightings sighting) {
         jdbc.update(INSERT_SIGHTINGS,
-                (sighting.getLocation() == null) ? null : sighting.getLocation().getLocationId(),
+                sighting.getLocation().getLocationId(),
                 sighting.getDate());
         
         int id = jdbc.queryForObject("select LAST_INSERT_ID()", Integer.class);
@@ -46,23 +49,24 @@ public class SightingsDBImpl implements SightingsDao{
 
     //REMOVE
     private static final String DELETE_SIGHTING = "DELETE FROM sightings WHERE id = ?";
-    private static final String DELETE_LOCATION_SIGHTING
-            = "DELETE FROM sightings where locationId = ?";
+    private static final String DELETE_HERO_SIGHTING = "DELETE FROM hvSightings WHERE sightingsId = ?";
     @Override
     public void removeSightings(int sightingsId) {
-        //jdbc.update(DELETE_LOCATION_SIGHTING, locationId);
+        jdbc.update(DELETE_HERO_SIGHTING, sightingsId);
         jdbc.update(DELETE_SIGHTING, sightingsId);
     }
 
+    private static final String UPDATE_SIGHTING 
+            = "UPDATE sightings SET locationId = ?, `date` = ? "
+            + "WHERE id = ?";
     //UPDATE
     @Override
     @Transactional
     public void updateSightings(Sightings sighting) {
-        jdbc.update(INSERT_SIGHTINGS,
+        jdbc.update(UPDATE_SIGHTING,
             sighting.getLocation().getLocationId(),
             sighting.getDate(),
             sighting.getSightingsId());
-        jdbc.update(DELETE_SIGHTING, sighting.getSightingsId());
     }
 
     //GET ONE
@@ -70,40 +74,83 @@ public class SightingsDBImpl implements SightingsDao{
     @Override
     public Sightings getSightingsById(int sightingsId) {
         try {
-            return jdbc.queryForObject(SELECT_SIGHTING, new SightingsMapper(), 
+            Sightings sighting = jdbc.queryForObject(SELECT_SIGHTING, new SightingsMapper(), 
                     sightingsId);
+            sighting.setLocation(getLocationForSightingId(sightingsId));
+            return sighting;
+
+            //return jdbc.queryForObject(SELECT_SIGHTING, new SightingsMapper(), 
+                    //sightingsId);
         } catch(EmptyResultDataAccessException ex) {
             return null;
         }
     }
 
+    //Get All Locations for Sightings
+    private static final String SELECT_LOCATION_BY_SIGHTINGS_ID
+            = "select l.id, l.`name`, l.`description`, l.longitude, l.lattitude, "
+            + "l.city, l.stateInitial, l.zipcode "
+            + "from location l "
+            + "join sightings s on l.id = s.locationId "
+            + "where s.id = ?";
+    private Location getLocationForSightingId(int id){
+        try {
+        return jdbc.queryForObject(SELECT_LOCATION_BY_SIGHTINGS_ID, new LocationMapper(), 
+                id);
+        } catch (EmptyResultDataAccessException ex){
+            return null;
+        }
+    }
+    
     //GET ALL
     private static final String SELECT_ALL_SIGHTINGS = "SELECT * FROM sightings";
     @Override
     public List getAllSightings() {
-        return jdbc.query(SELECT_ALL_SIGHTINGS, new SightingsMapper());
+        List<Sightings> sList = jdbc.query(SELECT_ALL_SIGHTINGS, new SightingsMapper());
+        populateAllSightings(sList);
+        return sList;
     }
-
+    private void populateAllSightings(List<Sightings> sights){
+        for(Sightings s : sights){
+            s.setLocation(getLocationForSightingId(s.getSightingsId()));
+        }
+    }
+    
     //GET ALL SIGHTINGS (HERO AND LOCATION) BY DATE
     private static final String SELECT_ALL_HERO_AND_LOCATION_BY_DATE 
-            = "SELECT hv.`name`, l.`name` "
-            + "FROM hvsightings hs "
-            + "JOIN herovillain hv ON hs.heroVillainId = hv.id " 
-            + "JOIN sightings s ON hs.sightingsId = s.id " 
-            + "JOIN location l ON s.locationId = l.id " 
-            + "WHERE s.`date` = ?";
+            = "SELECT * FROM sightings "
+            + "WHERE `date` = ?";
     @Override
     public List<Sightings> getllAllSightingsByDate(LocalDate date) {
+        
+//        String formatted = date.format(DateTimeFormatter.ISO_LOCAL_DATE);
+//        date = LocalDate.parse(formatted,
+//                DateTimeFormatter.ISO_LOCAL_DATE);
+        
         return jdbc.query(SELECT_ALL_HERO_AND_LOCATION_BY_DATE, 
-                new SightingsMapper(), date);
+                new SightingsMapper(), java.sql.Date.valueOf(date));
     }
-     
+
+    //GET THE LATEST 10 SIGHTINGS
+    private static final String SELECT_TEN_LATEST_SIGHTINGS 
+            = "SELECT s.* FROM hvsightings hs "
+            + "JOIN sightings s ON s.id = hs.sightingsId "
+            + "ORDER BY s.`date` DESC "
+            + "LIMIT 0,10";
+    @Override
+    public List getTenLatestSightings() {
+        List<Sightings> sList = jdbc.query(SELECT_TEN_LATEST_SIGHTINGS, new SightingsMapper());
+        populateAllSightings(sList);
+        return sList;
+    }
+         
     public static final class SightingsMapper implements RowMapper<Sightings> {
         
         @Override
         public Sightings mapRow(ResultSet rs, int i) throws SQLException {
             Sightings s = new Sightings();
-            s.setDate(rs.getDate("date"));
+            s.setSightingsId(rs.getInt("id"));
+            s.setDate(rs.getDate("date").toLocalDate());
             return s;
         }
     }

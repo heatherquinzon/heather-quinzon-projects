@@ -26,4 +26,6 @@ public interface SightingsDao {
     public List getAllSightings();
 
     public List<Sightings> getllAllSightingsByDate(LocalDate date);
+    
+    public List getTenLatestSightings();
 }

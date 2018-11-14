@@ -5,7 +5,10 @@
  */
 package com.sg.herosightings.dao;
 
+import com.sg.herosightings.dao.OrgDBImpl.OrgMapper;
+import com.sg.herosightings.dao.SightingsDBImpl.SightingsMapper;
 import com.sg.herosightings.dto.HeroVillain;
+import com.sg.herosightings.dto.Location;
 import com.sg.herosightings.dto.Organization;
 import com.sg.herosightings.dto.Sightings;
 import java.sql.ResultSet;
@@ -31,8 +34,7 @@ public class HVDBImpl implements HVDao{
     
     //ADD
     private static final String INSERT_HEROVILLAIN 
-            = "INSERT INTO heroVillain"
-            + "(`name`, `description`, power, `type`) "
+            = "INSERT INTO heroVillain(`name`, `description`, power, `type`) "
             + "VALUES(?,?,?,?)";
     @Override
     @Transactional
@@ -53,33 +55,38 @@ public class HVDBImpl implements HVDao{
     
     //ADD HVORG
     private static final String INSERT_HV_ORG 
-            = "INSERT INTO hvOrg(orgId, heroVillainId) "
-            + "VALUES(?,?)";
+            = "INSERT INTO hvorg(heroVillainId, orgId) VALUES(?,?)";
     public void addHeroOrg(HeroVillain hv) throws DataAccessException {
-        for(Organization org : hv.getOrgs()) {
-            jdbc.update(INSERT_HV_ORG, org.getOrganizationId(), hv.getHeroVillainId());
+        final int hvId = hv.getHeroVillainId();
+        final List<Organization> orgs = hv.getOrgs();
+        
+        for(Organization currentOrg : orgs) {
+            jdbc.update(INSERT_HV_ORG, hvId, currentOrg.getOrganizationId());
         }
     }
     
     //ADD HVSIGHTINGS
     private static final String INSERT_HV_SIGHTINGS
-            = "INSERT INTO hvSightings(sightingId, herovillainId) "
+            = "INSERT INTO hvSightings(sightingsId, herovillainId) "
             + "VALUES(?,?)";
     public void addHeroSighting(HeroVillain hv) throws DataAccessException {
-        for(Sightings s : hv.getSightings()) {
-            jdbc.update(INSERT_HV_ORG, s.getSightingsId(), hv.getHeroVillainId());
+        final int hvId = hv.getHeroVillainId();
+        final List<Sightings> sights = hv.getSightings();
+        
+        for(Sightings curS : sights) {
+            jdbc.update(INSERT_HV_SIGHTINGS, curS.getSightingsId(), hvId);
         }
     }
     
     //REMOVE
     private static final String DELETE_HEROVILLAIN = "DELETE FROM heroVillain WHERE id = ?";
-    private static final String DELETE_HV_ORG = "DELETE FROM hvOrg WHERE id = ?";
-    private static final String DELETE_HV_SIGHTINGS = "DELETE FROM hvSightings WHERE ID = ?";
+    private static final String DELETE_HV_SIGHTINGS = "DELETE FROM hvSightings WHERE heroVillainId = ?";
+    private static final String DELETE_HV_ORG = "DELETE FROM hvOrg WHERE heroVillainId = ?";
     @Override
     public void removeHeroVillain(int heroVillainId) {
-        jdbc.update(DELETE_HEROVILLAIN, heroVillainId);
         jdbc.update(DELETE_HV_SIGHTINGS, heroVillainId);
         jdbc.update(DELETE_HV_ORG, heroVillainId);
+        jdbc.update(DELETE_HEROVILLAIN, heroVillainId);
     }
 
     //UPDATE
@@ -97,7 +104,9 @@ public class HVDBImpl implements HVDao{
                 hv.getHeroVillainId());
         
         jdbc.update(DELETE_HV_ORG, hv.getHeroVillainId());
+        jdbc.update(DELETE_HV_SIGHTINGS, hv.getHeroVillainId());
         addHeroOrg(hv);
+        addHeroSighting(hv);
     }
 
     //GET ONE
@@ -105,16 +114,61 @@ public class HVDBImpl implements HVDao{
     @Override
     public HeroVillain getHVById(int heroVillainId) {
         try{
-            return jdbc.queryForObject(SELECT_HEROVILLAIN, new HeroVillainMapper(),
+            HeroVillain hv = jdbc.queryForObject(SELECT_HEROVILLAIN, new HeroVillainMapper(),
                     heroVillainId);
+            hv.setOrgs(getOrgsByHeroId(heroVillainId));
+            hv.setSightings(getSightingsByHeroId(heroVillainId));
+            return hv;
+//            return jdbc.queryForObject(SELECT_HEROVILLAIN, new HeroVillainMapper(),
+//                    heroVillainId);
         }catch(EmptyResultDataAccessException ex){
             return null;
         }
     }
 
-    //GET ALL
+    private static final String SELECT_ORGS_FOR_HERO
+            = "SELECT o.* FROM org o "
+            + "JOIN hvorg ho on o.id = ho.orgId "
+            + "where ho.herovillainid = ?";
+    private List<Organization> getOrgsByHeroId(int id) {
+        return jdbc.query(SELECT_ORGS_FOR_HERO, new OrgMapper(), id);
+    }
+    
+    private static final String SELECT_ALL_SIGHTINGS_FOR_HERO
+            = "SELECT s.* FROM sightings s "
+            + "JOIN hvSightings hs on s.id = hs.sightingsId "
+            + "WHERE hs.heroVillainId = ?";
+    private List<Sightings> getSightingsByHeroId(int id) {
+        List<Sightings> sList = jdbc.query(SELECT_ALL_SIGHTINGS_FOR_HERO, new SightingsMapper(), id);
+        populateAllSightings(sList);
+        return sList;
+    }
+    
+    //Get All Locations for Sightings
+    private static final String SELECT_LOCATION_BY_SIGHTINGS_ID
+            = "select l.id, l.`name`, l.`description`, l.longitude, l.lattitude, "
+            + "l.city, l.stateInitial, l.zipcode "
+            + "from location l "
+            + "join sightings s on l.id = s.locationId "
+            + "where s.id = ?";
+    private Location getLocationForSightingId(int id){
+        try {
+        return jdbc.queryForObject(SELECT_LOCATION_BY_SIGHTINGS_ID, new LocationDBImpl.LocationMapper(), 
+                id);
+        } catch (EmptyResultDataAccessException ex){
+            return null;
+        }
+    }
+    //Gets All Sightings with proper Location
+    private void populateAllSightings(List<Sightings> sights){
+        for(Sightings s : sights){
+            s.setLocation(getLocationForSightingId(s.getSightingsId()));
+        }
+    }
+    
+    //Gets All Orgs from Hero Id
     private static final String SELECT_ALL_ORG_FROM_HERO_ID 
-            = "select o.`name` " 
+            = "select o.* " 
             + "from org o " 
             + "join hvorg hv on o.id = hv.id " 
             + "where hv.herovillainid = ?";
@@ -122,6 +176,7 @@ public class HVDBImpl implements HVDao{
         return jdbc.query(SELECT_ALL_ORG_FROM_HERO_ID, new OrgDBImpl.OrgMapper(), heroVillainId);
     }
     private static final String SELECT_ALL_HEROVILLAINS = "SELECT * FROM heroVillain";
+    //GET ALL
     @Override
     public List getAllHeroVillains() {
         List<HeroVillain> hvList = jdbc.query(SELECT_ALL_HEROVILLAINS, new HeroVillainMapper());
@@ -131,12 +186,13 @@ public class HVDBImpl implements HVDao{
     private void populateAllHeros(List<HeroVillain> hvList){
         for(HeroVillain hv : hvList){
             hv.setOrgs(getAllOrgsFromHeroId(hv.getHeroVillainId()));
+            hv.setSightings(getSightingsByHeroId(hv.getHeroVillainId()));
         }
     }
 
     //GET ALL HEROS BY LOCATION
     private static final String SELECT_All_HEROVILLAIN_BY_LOCATION_ID 
-            = "SELECT hv.`name` "
+            = "SELECT hv.* "
             + "FROM heroVillain hv "
             + "JOIN hvsightings hs ON hv.id = hs.heroVillainId "
             + "JOIN sightings s ON hs.sightingsId = s.id "
@@ -150,11 +206,10 @@ public class HVDBImpl implements HVDao{
     
     //GET ALL HEROS FROM ORG
     private static final String SELECT_ALL_HEROVILLAIN_BY_ORG_ID
-            = "SELECT hv.`name` "
-            + "FROM hvorg ho "
-            + "JOIN herovillain hv ON ho.heroVillainId = hv.id "
-            + "JOIN org o ON ho.orgId = o.id "
-            + "WHERE o.id = \"SuperEvil";
+            = "SELECT hv.* "
+            + "FROM herovillain hv "
+            + "JOIN hvorg ho ON hv.id = ho.herovillainId "
+            + "WHERE ho.orgid = ?";
     @Override
     public List<HeroVillain> getAllMembersByOrgId(int orgId) {
         return jdbc.query(SELECT_ALL_HEROVILLAIN_BY_ORG_ID, 

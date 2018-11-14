@@ -38,16 +38,4 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
     
-    <bean id="hvDao" class="com.sg.herosightings.dao.HVDBImpl">
-    </bean>    
-
-    <bean id="locationDao" class="com.sg.herosightings.dao.LocationDBImpl">
-    </bean> 
-    
-    <bean id="orgDao" class="com.sg.herosightings.dao.OrgDBImpl">
-    </bean> 
-    
-    <bean id="sightingsDao" class="com.sg.herosightings.dao.SightingsDBImpl">
-    </bean> 
-
 </beans>

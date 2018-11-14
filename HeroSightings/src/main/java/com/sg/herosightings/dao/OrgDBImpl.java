@@ -52,8 +52,10 @@ public class OrgDBImpl implements OrgDao {
     //REMOVE
     private static final String DELETE_ORG
             = "DELETE FROM org WHERE id = ?";
+    private static final String DELETE_HV_ORG = "DELETE FROM hvOrg WHERE orgId = ?";
     @Override
     public void removeOrganization(int orgId) {
+        jdbc.update(DELETE_HV_ORG, orgId);
         jdbc.update(DELETE_ORG, orgId);
     }
 

@@ -54,10 +54,16 @@ public class LocationDBImpl implements LocationDao {
     //REMOVE
     private static final String DELETE_LOCATION
             = "DELETE FROM location where id = ?";
-        private static final String DELETE_LOCATION_SIGHTING
+    private static final String DELETE_LOCATION_SIGHTING
             = "DELETE FROM sightings where locationId = ?";
+    private static final String DELETE_HERO_LOCATION_SIGHTING
+            = "DELETE hs.* FROM hvSightings hs "
+            + "JOIN sightings s ON hs.sightingsId = s.id "
+            + "JOIN location l ON s.locationId = l.id "
+            + "WHERE l.id = ? ";
     @Override
     public void removeLocation(int locationId) {
+        jdbc.update(DELETE_HERO_LOCATION_SIGHTING, locationId);
         jdbc.update(DELETE_LOCATION_SIGHTING, locationId);
         jdbc.update(DELETE_LOCATION, locationId);
     }
@@ -103,16 +109,17 @@ public class LocationDBImpl implements LocationDao {
     }
 
     //GET ALL LOCATION OF HERO
-    private static final String SELECT_ALL_HERO_LOCATION
-            = "SELECT l.`name` "
+    private static final String SELECT_ALL_LOCATION_BY_HERO_ID
+            = "SELECT l.* "
             + "FROM location l "
             + "JOIN sightings s ON l.id = s.locationId "
             + "JOIN hvsightings hs ON s.id = hs.sightingsid "
             + "JOIN herovillain hv ON hs.heroVillainId = hv.id "
-            + "WHERE hv.id = 1";
+            + "WHERE hv.id = ?";
     @Override
-    public List<Location> getLocationsByHeroVillainId(HeroVillain heroVillainId) {
-        return jdbc.query(SELECT_ALL_HERO_LOCATION, new LocationMapper());
+    public List<Location> getLocationsByHeroVillainId(int heroVillainId) {
+        return jdbc.query(SELECT_ALL_LOCATION_BY_HERO_ID, 
+                new LocationMapper(), heroVillainId);
     }
 
     public static final class LocationMapper implements RowMapper<Location> {

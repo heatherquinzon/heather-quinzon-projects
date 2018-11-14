@@ -1,0 +1,57 @@
+body {
+    font-family: 'Nova Square';
+    text-align: center;
+}
+
+th {
+    text-align: center;
+}
+
+h1 {
+    font-family: 'Monofett';
+    font-stretch: expanded;
+    font-size: 50px;
+    color: red;
+}
+
+h2, h3, h4, h5 {
+    font-family: 'Monofett';
+    font-stretch: expanded;
+    color: red;
+}
+
+.navbar-inverse {
+    background-color: red;
+    color: white;
+    border-color: white;
+}
+
+.nav-tabs>li>a {
+    color: white;
+    border: white;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    color: #271759;
+    cursor: default;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+}
+
+.nav-tabs>li>a:hover {
+    background-color: #271759;
+}
+
+.card {
+    text-align: justify;
+}
+
+.btn {
+    background-color: #271759;
+    color: white;
+}
+
+a:visited {
+    color: #271759;
+}

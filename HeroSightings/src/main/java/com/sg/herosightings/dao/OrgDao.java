@@ -5,7 +5,6 @@
  */
 package com.sg.herosightings.dao;
 
-import com.sg.herosightings.dto.HeroVillain;
 import com.sg.herosightings.dto.Organization;
 import java.util.List;
 
